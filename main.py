@@ -13,28 +13,46 @@ def main():
 
     
     word_of_the_day = get_word()
+    print(word_of_the_day)
     print(f'The word of the day contains {len(word_of_the_day)} letters')
     
     attemps = 10
     
+    
     while attemps > 0:
         
+        list_letter_guess = []
         word_of_the_day_user = ''
         user_word = get_user_word(word_of_the_day=word_of_the_day)
         
-        for index in range(len(user_word)):
-            if user_word[index] in word_of_the_day and user_word[index] == word_of_the_day[index]:
-                    word_of_the_day_user += colored(user_word[index], 'green')
-            elif user_word[index] in word_of_the_day and user_word[index] != word_of_the_day[index]:
-                    word_of_the_day_user += colored(user_word[index], 'yellow')
-            else:
-                    word_of_the_day_user += colored(user_word[index], 'red')
+        for i in range(len(user_word)):
+            
+            if user_word[i] in word_of_the_day and user_word[i] == word_of_the_day[i]:
+                    list_letter_guess.append(user_word[i])
+        
+        
+        for i in range(len(user_word)):
+            
+            if user_word[i] in word_of_the_day and user_word[i] == word_of_the_day[i]:
+                    word_of_the_day_user += colored(user_word[i], 'green')
+                    
+            elif not user_word[i] in word_of_the_day:
+                word_of_the_day_user += colored(user_word[i], 'red')
+                    
+            elif user_word[i] in word_of_the_day and user_word[i] != word_of_the_day[i]:
+                
+                if list_letter_guess.count(user_word[i]) >= word_of_the_day.count(user_word[i]):
+                    word_of_the_day_user += colored(user_word[i], 'red')
+                else:
+                    word_of_the_day_user += colored(user_word[i], 'yellow')
+                    list_letter_guess.append(user_word[i])
          
         print()           
         print(word_of_the_day_user)
         print()
         
         striped_word = strip_colors(word_of_the_day_user)
+        
         if striped_word == word_of_the_day:
             print('\nCongratulations, you guessed the word of the day!\n')
             break
